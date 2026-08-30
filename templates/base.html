@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Tutor Hub{% endblock %}</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}"
+    >
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container nav-container">
+            <a class="brand" href="{{ url_for('home') }}">
+                <span class="brand-mark">TH</span>
+                <span>Tutor Hub</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Main navigation">
+                <a href="{{ url_for('home') }}" class="active">Dashboard</a>
+                <a href="#">Students</a>
+                <a href="#">Sessions</a>
+                <a href="#">Progress</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page-content">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>Built by Dev Prajapati · Tutor Hub</p>
+        </div>
+    </footer>
+</body>
+</html>

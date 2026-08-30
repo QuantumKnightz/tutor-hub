@@ -1,11 +1,63 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Tutor Hub – Dashboard</title>
-</head>
-<body>
-    <h1>Tutor Hub</h1>
-    <p>Welcome, Dev. This is your tutoring dashboard.</p>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Tutor Hub | Dashboard{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div>
+        <p class="eyebrow">CODING TUTOR MANAGEMENT</p>
+        <h1>Teach with clarity.<br>Track progress with confidence.</h1>
+        <p class="hero-text">
+            Tutor Hub is your workspace for organizing students, planning
+            coding sessions, and recording learning progress in one place.
+        </p>
+
+        <div class="hero-actions">
+            <a class="button button-primary" href="#">Add a student</a>
+            <a class="button button-secondary" href="#">Schedule a session</a>
+        </div>
+    </div>
+
+    <div class="hero-card">
+        <p class="card-label">YOUR TUTORING HUB</p>
+        <h2>Build better learning systems.</h2>
+        <p>
+            Created for independent coding tutors who want a simple,
+            privacy-aware way to manage their students.
+        </p>
+    </div>
+</section>
+
+<section class="dashboard-grid">
+    <article class="stat-card">
+        <p class="stat-label">Active students</p>
+        <p class="stat-number">0</p>
+        <p class="stat-note">Add your first student to begin.</p>
+    </article>
+
+    <article class="stat-card">
+        <p class="stat-label">Sessions this week</p>
+        <p class="stat-number">0</p>
+        <p class="stat-note">Schedule your next lesson.</p>
+    </article>
+
+    <article class="stat-card">
+        <p class="stat-label">Lessons completed</p>
+        <p class="stat-number">0</p>
+        <p class="stat-note">Progress tracking is coming next.</p>
+    </article>
+</section>
+
+<section class="next-step-card">
+    <div>
+        <p class="eyebrow">NEXT STEP</p>
+        <h2>Start by adding your first coding student.</h2>
+        <p>
+            Soon, this dashboard will show upcoming sessions, student goals,
+            lesson history, and progress notes.
+        </p>
+    </div>
+
+    <a class="button button-primary" href="#">Set up Tutor Hub</a>
+</section>
+{% endblock %}
