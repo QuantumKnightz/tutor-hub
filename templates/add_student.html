@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Add Student | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Student management</p>
+        <h1>Add a student</h1>
+        <p>Create a student profile to begin tracking sessions, goals, and progress.</p>
+    </div>
+
+    <a href="{{ url_for('students') }}" class="secondary-button">Back to students</a>
+</section>
+
+<section class="student-form-section">
+    {% if error %}
+        <p class="form-error">{{ error }}</p>
+    {% endif %}
+
+    <form action="{{ url_for('add_student') }}" method="post" class="student-form">
+        <div class="form-group">
+            <label for="name">Student name</label>
+            <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="For example: Maya Patel"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="grade">Grade / year group</label>
+            <input
+                id="grade"
+                name="grade"
+                type="text"
+                placeholder="For example: Grade 10"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="subjects">Subjects</label>
+            <input
+                id="subjects"
+                name="subjects"
+                type="text"
+                placeholder="For example: Mathematics, Physics"
+                required
+            >
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('students') }}" class="secondary-button">Cancel</a>
+            <button type="submit" class="primary-button">Save student</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

@@ -12,7 +12,7 @@
         </p>
     </div>
 
-    <a class="button button-primary" href="#">
+    <a class="button button-primary" href="{{ url_for('add_student') }}">
         Add a student
     </a>
 </section>
@@ -54,7 +54,7 @@
                 Your student list is empty. In the next feature, you will add a form
                 that saves a student into the Tutor Hub database.
             </p>
-            <a class="button button-primary" href="#">
+            <a href="{{ url_for('add_student') }}" class="button button-primary" href="#">
                 Add your first student
             </a>
         </div>

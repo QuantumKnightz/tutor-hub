@@ -1,7 +1,6 @@
 import os
 
-from flask import Flask, render_template
-
+from flask import Flask, redirect, render_template, request, url_for
 import db
 
 
@@ -35,6 +34,35 @@ def students():
     ).fetchall()
 
     return render_template("students.html", students=student_list)
+
+@app.route("/students/add", methods=["GET", "POST"])
+def add_student():
+    if request.method == "POST":
+        student_name = request.form.get("name", "").strip()
+        grade = request.form.get("grade", "").strip()
+        subjects = request.form.get("subjects", "").strip()
+
+        if not student_name or not grade or not subjects:
+            return render_template(
+                "add_student.html",
+                error="Please complete name, grade, and subjects.",
+            )
+
+        database = db.get_db()
+
+        database.execute(
+            """
+            INSERT INTO students (name, grade, subjects)
+            VALUES (?, ?, ?)
+            """,
+            (student_name, grade, subjects),
+        )
+
+        database.commit()
+
+        return redirect(url_for("students"))
+
+    return render_template("add_student.html")
 
 
 if __name__ == "__main__":
