@@ -64,6 +64,31 @@ def add_student():
 
     return render_template("add_student.html")
 
+@app.route("/sessions")
+def sessions():
+    database = db.get_db()
+
+    upcoming_sessions = database.execute(
+        """
+        SELECT
+            sessions.id,
+            sessions.subject,
+            sessions.session_date,
+            sessions.start_time,
+            sessions.duration_minutes,
+            students.name AS student_name
+        FROM sessions
+        JOIN students ON sessions.student_id = students.id
+        WHERE sessions.status = 'scheduled'
+          AND sessions.session_date >= DATE('now')
+        ORDER BY sessions.session_date ASC, sessions.start_time ASC
+        """
+    ).fetchall()
+
+    return render_template(
+        "sessions.html",
+        sessions=upcoming_sessions,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
