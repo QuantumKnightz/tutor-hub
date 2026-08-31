@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Tutor Hub | Students{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">STUDENT MANAGEMENT</p>
+        <h1>Your students</h1>
+        <p class="page-intro">
+            Track the learners you support, their coding subjects, and their current tutoring status.
+        </p>
+    </div>
+
+    <a class="button button-primary" href="#">
+        Add a student
+    </a>
+</section>
+
+<section class="student-panel">
+    {% if students %}
+        <div class="student-table-wrapper">
+            <table class="student-table">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Grade</th>
+                        <th>Subjects</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for student in students %}
+                    <tr>
+                        <td>{{ student["name"] }}</td>
+                        <td>{{ student["grade"] }}</td>
+                        <td>{{ student["subjects"] }}</td>
+                        <td>
+                            <span class="status-badge">
+                                {{ student["status"] }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon">+</div>
+            <h2>No students yet</h2>
+            <p>
+                Your student list is empty. In the next feature, you will add a form
+                that saves a student into the Tutor Hub database.
+            </p>
+            <a class="button button-primary" href="#">
+                Add your first student
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
