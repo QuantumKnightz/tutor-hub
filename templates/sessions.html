@@ -10,10 +10,12 @@
         <p>Plan upcoming lessons and keep each student on track.</p>
     </div>
 
-    <span class="secondary-button is-disabled" aria-disabled="true">
-        + Schedule session
-        <small>Coming next</small>
-    </span>
+<a
+    href="{{ url_for('add_session') }}"
+    class="primary-button"
+>
+    + Schedule session
+</a>
 </section>
 
 <section class="content-section">

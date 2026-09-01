@@ -17,10 +17,9 @@
             + Add student
         </a>
 
-        <span class="secondary-button is-disabled" aria-disabled="true">
+        <a href="{{ url_for('add_session') }}" class="secondary-button">
             Schedule session
-            <small>Coming next</small>
-        </span>
+        </a>
 
         <span class="secondary-button is-disabled" aria-disabled="true">
             Assign homework
@@ -36,25 +35,52 @@
             <h2>Upcoming sessions</h2>
         </div>
 
-        <span class="section-status">Sessions coming next</span>
+        <a href="{{ url_for('add_session') }}" class="text-link">
+            Schedule a session →
+        </a>
     </div>
 
-    <div class="dashboard-empty-state">
-        <div class="empty-state-icon" aria-hidden="true">◷</div>
+    {% if upcoming_sessions %}
+        <div class="session-list">
+            {% for session in upcoming_sessions %}
+                <article class="session-row">
+                    <div class="session-date">
+                        <span>{{ session["session_date"] }}</span>
+                    </div>
 
-        <div>
-            <h3>No sessions scheduled yet</h3>
+                    <div class="session-time">
+                        {{ session["start_time"] }}
+                    </div>
 
-            <p>
-                Schedule your first session to see the next week of tutoring
-                work here.
-            </p>
+                    <div class="session-details">
+                        <strong>{{ session["student_name"] }}</strong>
 
-            <span class="text-link is-muted">
-                Schedule a session →
-            </span>
+                        <span>
+                            {{ session["subject"] }} ·
+                            {{ session["duration_minutes"] }} minutes
+                        </span>
+                    </div>
+                </article>
+            {% endfor %}
         </div>
-    </div>
+    {% else %}
+        <div class="dashboard-empty-state">
+            <div class="empty-state-icon" aria-hidden="true">◷</div>
+
+            <div>
+                <h3>No sessions scheduled yet</h3>
+
+                <p>
+                    Schedule your first session to see your upcoming tutoring
+                    work here.
+                </p>
+
+                <a href="{{ url_for('add_session') }}" class="text-link">
+                    Schedule a session →
+                </a>
+            </div>
+        </div>
+    {% endif %}
 </section>
 
 <section class="dashboard-section">
@@ -92,7 +118,9 @@
             <h2>Students needing attention</h2>
         </div>
 
-        <span class="section-status">Built from sessions and homework</span>
+        <span class="section-status">
+            Built from sessions and homework
+        </span>
     </div>
 
     <div class="dashboard-empty-state">
