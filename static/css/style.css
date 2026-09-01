@@ -974,3 +974,25 @@ textarea:focus-visible {
 .profile-action-form {
     margin: 0;
 }
+
+.flash-messages {
+    margin-bottom: 1.5rem;
+}
+
+.flash-message {
+    border-radius: 0.75rem;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+}
+
+.flash-success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+}
+
+.flash-error {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+}

@@ -33,27 +33,27 @@
         </a>
 
         {% if student["status"] == "active" %}
-    <form
-        method="post"
-        action="{{ url_for('archive_student', student_id=student['id']) }}"
-        class="profile-action-form"
-        onsubmit="return confirm('Archive {{ student["name"] }}? Their profile and history will be kept.')"
-    >
-        <button type="submit" class="danger-button">
-            Archive student
-        </button>
-    </form>
-{% else %}
-    <form
-        method="post"
-        action="{{ url_for('restore_student', student_id=student['id']) }}"
-        class="profile-action-form"
-    >
-        <button type="submit" class="secondary-button">
-            Restore student
-        </button>
-    </form>
-{% endif %}
+            <form
+                method="post"
+                action="{{ url_for('archive_student', student_id=student['id']) }}"
+                class="profile-action-form"
+                onsubmit="return confirm('Archive this student? Their profile and history will be kept.')"
+            >
+                <button type="submit" class="danger-button">
+                    Archive student
+                </button>
+            </form>
+        {% else %}
+            <form
+                method="post"
+                action="{{ url_for('restore_student', student_id=student['id']) }}"
+                class="profile-action-form"
+            >
+                <button type="submit" class="secondary-button">
+                    Restore student
+                </button>
+            </form>
+        {% endif %}
     </div>
 </section>
 
@@ -66,98 +66,97 @@
     </div>
 
     <dl class="student-details">
-    <div>
-        <dt>Grade</dt>
-        <dd>{{ student["grade"] }}</dd>
-    </div>
-
-    <div>
-        <dt>Subjects</dt>
-        <dd>{{ student["subjects"] }}</dd>
-    </div>
-
-    <div>
-        <dt>School</dt>
-       <dd>
-    {{ student["school"] or "Not added yet" }}
-</dd>
-    </div>
-
-    <div>
-        <dt>Status</dt>
-        <dd>{{ student["status"]|capitalize }}</dd>
-    </div>
-
-    <div>
-        <dt>Added</dt>
-        <dd>{{ student["created_at"][:10] }}</dd>
-    </div>
-</dl>
-
-<section class="learning-profile">
-    <div class="learning-profile-heading">
-        <p class="eyebrow">Academic context</p>
-        <h3>Learning profile</h3>
-    </div>
-
-    {% if student["learning_goal"]
-       or student["current_level"]
-       or student["strengths"]
-       or student["areas_to_improve"]
-       or student["tutor_notes"] %}
-
-        {% if student["learning_goal"] %}
-            <div class="learning-profile-item">
-                <h4>Learning goal</h4>
-                <p>{{ student["learning_goal"] }}</p>
-            </div>
-        {% endif %}
-
-        {% if student["current_level"] %}
-            <div class="learning-profile-item">
-                <h4>Current level</h4>
-                <p>{{ student["current_level"] }}</p>
-            </div>
-        {% endif %}
-
-        {% if student["strengths"] %}
-            <div class="learning-profile-item">
-                <h4>Strengths</h4>
-                <p>{{ student["strengths"] }}</p>
-            </div>
-        {% endif %}
-
-        {% if student["areas_to_improve"] %}
-            <div class="learning-profile-item">
-                <h4>Areas to improve</h4>
-                <p>{{ student["areas_to_improve"] }}</p>
-            </div>
-        {% endif %}
-
-        {% if student["tutor_notes"] %}
-            <div class="learning-profile-item learning-profile-item-private">
-                <h4>Tutor notes</h4>
-                <p>{{ student["tutor_notes"] }}</p>
-            </div>
-        {% endif %}
-
-    {% else %}
-        <div class="profile-empty-state learning-profile-empty">
-            <p>No academic context has been added yet.</p>
-
-            <p class="profile-empty-help">
-                Add a learning goal, current level, strengths, or areas to
-                improve to make lesson planning more personalized.
-            </p>
-
-            <a
-                href="{{ url_for('edit_student', student_id=student['id']) }}"
-                class="text-link"
-            >
-                Add learning information →
-            </a>
+        <div>
+            <dt>Grade</dt>
+            <dd>{{ student["grade"] }}</dd>
         </div>
-    {% endif %}
+
+        <div>
+            <dt>Subjects</dt>
+            <dd>{{ student["subjects"] }}</dd>
+        </div>
+
+        <div>
+            <dt>School</dt>
+            <dd>{{ student["school"] or "Not added yet" }}</dd>
+        </div>
+
+        <div>
+            <dt>Status</dt>
+            <dd>{{ student["status"]|capitalize }}</dd>
+        </div>
+
+        <div>
+            <dt>Added</dt>
+            <dd>{{ student["created_at"][:10] }}</dd>
+        </div>
+    </dl>
+
+    <section class="learning-profile">
+        <div class="learning-profile-heading">
+            <p class="eyebrow">Academic context</p>
+            <h3>Learning profile</h3>
+        </div>
+
+        {% if student["learning_goal"]
+           or student["current_level"]
+           or student["strengths"]
+           or student["areas_to_improve"]
+           or student["tutor_notes"] %}
+
+            {% if student["learning_goal"] %}
+                <div class="learning-profile-item">
+                    <h4>Learning goal</h4>
+                    <p>{{ student["learning_goal"] }}</p>
+                </div>
+            {% endif %}
+
+            {% if student["current_level"] %}
+                <div class="learning-profile-item">
+                    <h4>Current level</h4>
+                    <p>{{ student["current_level"] }}</p>
+                </div>
+            {% endif %}
+
+            {% if student["strengths"] %}
+                <div class="learning-profile-item">
+                    <h4>Strengths</h4>
+                    <p>{{ student["strengths"] }}</p>
+                </div>
+            {% endif %}
+
+            {% if student["areas_to_improve"] %}
+                <div class="learning-profile-item">
+                    <h4>Areas to improve</h4>
+                    <p>{{ student["areas_to_improve"] }}</p>
+                </div>
+            {% endif %}
+
+            {% if student["tutor_notes"] %}
+                <div class="learning-profile-item learning-profile-item-private">
+                    <h4>Tutor notes</h4>
+                    <p>{{ student["tutor_notes"] }}</p>
+                </div>
+            {% endif %}
+
+        {% else %}
+            <div class="profile-empty-state learning-profile-empty">
+                <p>No academic context has been added yet.</p>
+
+                <p class="profile-empty-help">
+                    Add a learning goal, current level, strengths, or areas to
+                    improve to make lesson planning more personalized.
+                </p>
+
+                <a
+                    href="{{ url_for('edit_student', student_id=student['id']) }}"
+                    class="text-link"
+                >
+                    Add learning information →
+                </a>
+            </div>
+        {% endif %}
+    </section>
 </section>
 
 <section class="profile-section">
@@ -167,7 +166,12 @@
             <h2>Upcoming sessions</h2>
         </div>
 
-        <span class="section-status">Scheduling coming next</span>
+        <a
+            href="{{ url_for('add_session', student_id=student['id']) }}"
+            class="text-link"
+        >
+            Schedule a session →
+        </a>
     </div>
 
     {% if upcoming_sessions %}
@@ -193,9 +197,12 @@
         <div class="profile-empty-state">
             <p>No sessions scheduled for {{ student["name"] }} yet.</p>
 
-            <span class="text-link is-muted">
+            <a
+                href="{{ url_for('add_session', student_id=student['id']) }}"
+                class="text-link"
+            >
                 Schedule a session →
-            </span>
+            </a>
         </div>
     {% endif %}
 </section>

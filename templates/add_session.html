@@ -1,0 +1,172 @@
+{% extends "base.html" %}
+
+{% block title %}Schedule Session | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Teaching schedule</p>
+
+        <h1>Schedule a session</h1>
+
+        <p class="page-intro">
+            Add an upcoming lesson for one of your active students.
+        </p>
+    </div>
+
+    <a href="{{ url_for('sessions') }}" class="secondary-button">
+        Back to sessions
+    </a>
+</section>
+
+<section class="student-form-section">
+    {% if error %}
+        <p class="form-error" role="alert">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    {% if students %}
+        <form method="post" class="student-form">
+            <div class="form-section-heading">
+                <p class="eyebrow">Session details</p>
+                <h2>Plan a lesson</h2>
+                <p>
+                    Choose the student, then add the lesson details needed for
+                    your tutoring schedule.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="student_id">
+                    Student <span aria-hidden="true">*</span>
+                </label>
+
+                <select id="student_id" name="student_id" required>
+                    <option value="">Choose a student</option>
+
+                    {% for student in students %}
+                        <option
+                            value="{{ student['id'] }}"
+                            {% if student['id'] == selected_student_id %}selected{% endif %}
+                        >
+                            {{ student["name"] }} · {{ student["grade"] }}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <p class="field-help">
+                    Only active students are available for scheduling.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="subject">
+                    Subject <span aria-hidden="true">*</span>
+                </label>
+
+                <input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    placeholder="For example: Physics"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="session_date">
+                    Session date <span aria-hidden="true">*</span>
+                </label>
+
+                <input
+                    id="session_date"
+                    name="session_date"
+                    type="date"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="start_time">
+                    Start time <span aria-hidden="true">*</span>
+                </label>
+
+                <input
+                    id="start_time"
+                    name="start_time"
+                    type="time"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="duration_minutes">
+                    Duration <span aria-hidden="true">*</span>
+                </label>
+
+                <select
+                    id="duration_minutes"
+                    name="duration_minutes"
+                    required
+                >
+                    <option value="">Choose duration</option>
+                    <option value="30">30 minutes</option>
+                    <option value="45">45 minutes</option>
+                    <option value="60" selected>60 minutes</option>
+                    <option value="75">75 minutes</option>
+                    <option value="90">90 minutes</option>
+                    <option value="120">120 minutes</option>
+                </select>
+            </div>
+
+            <div class="form-section-heading form-section-heading-spaced">
+                <p class="eyebrow">Tutor preparation</p>
+                <h2>Planning note</h2>
+                <p>
+                    Optional private context to help you prepare for the
+                    session.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="notes">Preparation note</label>
+
+                <textarea
+                    id="notes"
+                    name="notes"
+                    rows="4"
+                    placeholder="For example: Review free-body diagrams and bring the last worksheet."
+                ></textarea>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url_for('sessions') }}" class="secondary-button">
+                    Cancel
+                </a>
+
+                <button type="submit" class="primary-button">
+                    Schedule session
+                </button>
+            </div>
+        </form>
+    {% else %}
+        <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">+</div>
+
+            <h2>No active students available</h2>
+
+            <p>
+                Add or restore an active student before scheduling a session.
+            </p>
+
+            <a
+                href="{{ url_for('add_student') }}"
+                class="primary-button"
+            >
+                Add a student
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
