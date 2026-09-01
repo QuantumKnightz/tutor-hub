@@ -1,21 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}Add Student | Tutor Hub{% endblock %}
+{% block title %}Edit {{ student["name"] }} | Tutor Hub{% endblock %}
 
 {% block content %}
 <section class="page-heading">
     <div>
-        <p class="eyebrow">Student management</p>
-        <h1>Add a student</h1>
-        <p>
-            Create a student profile with the information you need to plan
-            sessions, set goals, and track progress.
+        <a
+            href="{{ url_for('student_profile', student_id=student['id']) }}"
+            class="back-link"
+        >
+            ← Back to {{ student["name"] }}
+        </a>
+
+        <p class="eyebrow">Student profile</p>
+
+        <h1>Edit student</h1>
+
+        <p class="page-intro">
+            Update {{ student["name"] }}’s details and learning profile.
         </p>
     </div>
-
-    <a href="{{ url_for('students') }}" class="secondary-button">
-        Back to students
-    </a>
 </section>
 
 <section class="student-form-section">
@@ -25,11 +29,11 @@
         </p>
     {% endif %}
 
-    <form action="{{ url_for('add_student') }}" method="post" class="student-form">
+    <form method="post" class="student-form">
         <div class="form-section-heading">
             <p class="eyebrow">Student details</p>
             <h2>Basic information</h2>
-            <p>Start with the details needed to identify the student.</p>
+            <p>Update the details used to identify the student.</p>
         </div>
 
         <div class="form-group">
@@ -39,7 +43,7 @@
                 id="name"
                 name="name"
                 type="text"
-                placeholder="For example: Maya Patel"
+                value="{{ student['name'] }}"
                 required
             >
         </div>
@@ -51,7 +55,7 @@
                 id="grade"
                 name="grade"
                 type="text"
-                placeholder="For example: Grade 10"
+                value="{{ student['grade'] }}"
                 required
             >
         </div>
@@ -63,7 +67,7 @@
                 id="subjects"
                 name="subjects"
                 type="text"
-                placeholder="For example: Mathematics, Physics"
+                value="{{ student['subjects'] }}"
                 required
             >
 
@@ -79,7 +83,7 @@
                 id="school"
                 name="school"
                 type="text"
-                placeholder="For example: Central Secondary School"
+                value="{{ student['school'] or '' }}"
                 required
             >
         </div>
@@ -88,8 +92,8 @@
             <p class="eyebrow">Learning profile</p>
             <h2>Academic context</h2>
             <p>
-                Optional information that helps you plan lessons and track
-                progress over time.
+                Use this information to plan lessons, assign homework, and
+                measure progress over time.
             </p>
         </div>
 
@@ -100,8 +104,8 @@
                 id="learning_goal"
                 name="learning_goal"
                 rows="3"
-                placeholder="For example: Raise mechanics performance from 72% to 85% before final exams."
-            ></textarea>
+                placeholder="For example: Raise mechanics performance before final exams."
+            >{{ student['learning_goal'] or '' }}</textarea>
         </div>
 
         <div class="form-group">
@@ -112,7 +116,7 @@
                 name="current_level"
                 rows="3"
                 placeholder="For example: Understands formulas but needs help applying them in longer questions."
-            ></textarea>
+            >{{ student['current_level'] or '' }}</textarea>
         </div>
 
         <div class="form-group">
@@ -123,7 +127,7 @@
                 name="strengths"
                 rows="3"
                 placeholder="For example: Works carefully and asks thoughtful questions."
-            ></textarea>
+            >{{ student['strengths'] or '' }}</textarea>
         </div>
 
         <div class="form-group">
@@ -134,14 +138,14 @@
                 name="areas_to_improve"
                 rows="3"
                 placeholder="For example: Free-body diagrams and multi-step word problems."
-            ></textarea>
+            >{{ student['areas_to_improve'] or '' }}</textarea>
         </div>
 
         <div class="form-section-heading form-section-heading-spaced">
             <p class="eyebrow">Tutor-only record</p>
             <h2>Planning notes</h2>
             <p>
-                Keep private preparation notes that help you teach this student
+                Keep private preparation notes that help you tutor this student
                 effectively.
             </p>
         </div>
@@ -154,16 +158,19 @@
                 name="tutor_notes"
                 rows="4"
                 placeholder="For example: Begin with worked examples, then gradually move to independent practice."
-            ></textarea>
+            >{{ student['tutor_notes'] or '' }}</textarea>
         </div>
 
         <div class="form-actions">
-            <a href="{{ url_for('students') }}" class="secondary-button">
+            <a
+                href="{{ url_for('student_profile', student_id=student['id']) }}"
+                class="secondary-button"
+            >
                 Cancel
             </a>
 
             <button type="submit" class="primary-button">
-                Save student
+                Save changes
             </button>
         </div>
     </form>

@@ -6,10 +6,15 @@ CREATE TABLE students (
     name TEXT NOT NULL,
     grade TEXT NOT NULL,
     subjects TEXT NOT NULL,
+    school TEXT,
+    learning_goal TEXT,
+    current_level TEXT,
+    strengths TEXT,
+    areas_to_improve TEXT,
+    tutor_notes TEXT,
     status TEXT NOT NULL DEFAULT 'active',
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
 CREATE TABLE sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,

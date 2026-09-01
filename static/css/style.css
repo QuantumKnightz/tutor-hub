@@ -926,3 +926,51 @@ textarea:focus-visible {
         text-align: left;
     }
 }
+
+.student-table-row {
+    transition: background-color 160ms ease;
+}
+
+.student-table-row:hover {
+    background: rgba(43, 101, 79, 0.05);
+}
+
+.student-profile-link {
+    color: var(--ink);
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.student-profile-link:hover {
+    color: var(--green);
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+}
+
+.student-profile-link:focus-visible,
+.student-row-action a:focus-visible {
+    outline: 3px solid rgba(43, 101, 79, 0.35);
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+.student-row-action {
+    width: 2.5rem;
+    text-align: right;
+}
+
+.student-row-action a {
+    color: var(--green);
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.student-row-action a:hover {
+    color: var(--ink);
+}
+
+
+.profile-action-form {
+    margin: 0;
+}
