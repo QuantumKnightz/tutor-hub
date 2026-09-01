@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Sessions | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Teaching schedule</p>
+        <h1>Sessions</h1>
+        <p>Plan upcoming lessons and keep each student on track.</p>
+    </div>
+
+    <span class="secondary-button is-disabled" aria-disabled="true">
+        + Schedule session
+        <small>Coming next</small>
+    </span>
+</section>
+
+<section class="content-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Your calendar</p>
+            <h2>Upcoming sessions</h2>
+        </div>
+    </div>
+
+    {% if sessions %}
+        <div class="session-list">
+            {% for session in sessions %}
+                <article class="session-row">
+                    <div class="session-date">
+                        <span>{{ session["session_date"] }}</span>
+                    </div>
+
+                    <div class="session-time">
+                        {{ session["start_time"] }}
+                    </div>
+
+                    <div class="session-details">
+                        <strong>{{ session["student_name"] }}</strong>
+                        <span>
+                            {{ session["subject"] }} ·
+                            {{ session["duration_minutes"] }} minutes
+                        </span>
+                    </div>
+
+                    <span class="row-arrow" aria-hidden="true">→</span>
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-section">
+            <p class="empty-section-title">No sessions scheduled yet</p>
+
+            <p>
+                When you schedule tutoring sessions, your upcoming lessons
+                will appear here.
+            </p>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

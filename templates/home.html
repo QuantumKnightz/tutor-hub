@@ -1,63 +1,133 @@
 {% extends "base.html" %}
 
-{% block title %}Tutor Hub | Dashboard{% endblock %}
+{% block title %}Dashboard | Tutor Hub{% endblock %}
 
 {% block content %}
-<section class="hero">
-    <div>
-        <p class="eyebrow">CODING TUTOR MANAGEMENT</p>
-        <h1>Teach with clarity.<br>Track progress with confidence.</h1>
-        <p class="hero-text">
-            Tutor Hub is your workspace for organizing students, planning
-            coding sessions, and recording learning progress in one place.
-        </p>
+<section class="dashboard-welcome">
+    <p class="eyebrow">Tutor workspace</p>
 
-        <div class="hero-actions">
-            <a class="button button-primary" href="#">Add a student</a>
-            <a class="button button-secondary" href="#">Schedule a session</a>
+    <h1>Good afternoon, Dev</h1>
+
+    <p class="dashboard-intro">
+        Make every tutoring session count.
+    </p>
+
+    <div class="dashboard-actions">
+        <a href="{{ url_for('add_student') }}" class="primary-button">
+            + Add student
+        </a>
+
+        <span class="secondary-button is-disabled" aria-disabled="true">
+            Schedule session
+            <small>Coming next</small>
+        </span>
+
+        <span class="secondary-button is-disabled" aria-disabled="true">
+            Assign homework
+            <small>Coming later</small>
+        </span>
+    </div>
+</section>
+
+<section class="dashboard-section">
+    <div class="dashboard-section-header">
+        <div>
+            <p class="eyebrow">Plan ahead</p>
+            <h2>Upcoming sessions</h2>
+        </div>
+
+        <span class="section-status">Sessions coming next</span>
+    </div>
+
+    <div class="dashboard-empty-state">
+        <div class="empty-state-icon" aria-hidden="true">◷</div>
+
+        <div>
+            <h3>No sessions scheduled yet</h3>
+
+            <p>
+                Schedule your first session to see the next week of tutoring
+                work here.
+            </p>
+
+            <span class="text-link is-muted">
+                Schedule a session →
+            </span>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-section">
+    <div class="dashboard-section-header">
+        <div>
+            <p class="eyebrow">Review queue</p>
+            <h2>Homework needing attention</h2>
+        </div>
+
+        <span class="section-status">Homework coming later</span>
+    </div>
+
+    <div class="dashboard-empty-state">
+        <div class="empty-state-icon" aria-hidden="true">✓</div>
+
+        <div>
+            <h3>No homework needs attention</h3>
+
+            <p>
+                Submitted work, upcoming deadlines, and overdue assignments
+                will appear here.
+            </p>
+
+            <span class="text-link is-muted">
+                Assign homework →
+            </span>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-section">
+    <div class="dashboard-section-header">
+        <div>
+            <p class="eyebrow">Follow-up</p>
+            <h2>Students needing attention</h2>
+        </div>
+
+        <span class="section-status">Built from sessions and homework</span>
+    </div>
+
+    <div class="dashboard-empty-state">
+        <div class="empty-state-icon" aria-hidden="true">✦</div>
+
+        <div>
+            <h3>No follow-ups need attention</h3>
+
+            <p>
+                Students with overdue homework, missing session notes, or no
+                upcoming session will appear here.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="dashboard-section dashboard-activity">
+    <div class="dashboard-section-header">
+        <div>
+            <p class="eyebrow">Workspace history</p>
+            <h2>Recent activity</h2>
         </div>
     </div>
 
-    <div class="hero-card">
-        <p class="card-label">YOUR TUTORING HUB</p>
-        <h2>Build better learning systems.</h2>
-        <p>
-            Created for independent coding tutors who want a simple,
-            privacy-aware way to manage their students.
-        </p>
+    <div class="dashboard-empty-state">
+        <div class="empty-state-icon" aria-hidden="true">↗</div>
+
+        <div>
+            <h3>Your workspace is ready</h3>
+
+            <p>
+                Add students, schedule sessions, and save lesson notes to build
+                your activity history.
+            </p>
+        </div>
     </div>
-</section>
-
-<section class="dashboard-grid">
-    <article class="stat-card">
-        <p class="stat-label">Active students</p>
-        <p class="stat-number">0</p>
-        <p class="stat-note">Add your first student to begin.</p>
-    </article>
-
-    <article class="stat-card">
-        <p class="stat-label">Sessions this week</p>
-        <p class="stat-number">0</p>
-        <p class="stat-note">Schedule your next lesson.</p>
-    </article>
-
-    <article class="stat-card">
-        <p class="stat-label">Lessons completed</p>
-        <p class="stat-number">0</p>
-        <p class="stat-note">Progress tracking is coming next.</p>
-    </article>
-</section>
-
-<section class="next-step-card">
-    <div>
-        <p class="eyebrow">NEXT STEP</p>
-        <h2>Start by adding your first coding student.</h2>
-        <p>
-            Soon, this dashboard will show upcoming sessions, student goals,
-            lesson history, and progress notes.
-        </p>
-    </div>
-
-    <a class="button button-primary" href="#">Set up Tutor Hub</a>
 </section>
 {% endblock %}
