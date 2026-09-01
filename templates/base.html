@@ -17,6 +17,8 @@
 </head>
 
 <body>
+    <a class="skip-link" href="#page-content">Skip to page content</a>
+
     <div class="app-layout">
         <aside class="sidebar">
             <a class="brand" href="{{ url_for('home') }}">
@@ -56,7 +58,7 @@
             </div>
         </aside>
 
-        <main class="main-content">
+        <main class="main-content" id="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages" aria-live="polite">
