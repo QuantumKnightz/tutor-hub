@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+
+{% block title %}Reports | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Student summaries</p>
+        <h1>Reports</h1>
+        <p>
+            Review sessions, homework, and progress for a selected period.
+        </p>
+    </div>
+</section>
+
+<section class="content-section">
+    <form
+        class="form-card report-filter-form"
+        method="get"
+    >
+        {% if error %}
+            <p
+                class="form-error"
+                role="alert"
+            >
+                {{ error }}
+            </p>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="student_id">Student</label>
+
+            <select
+                id="student_id"
+                name="student_id"
+                required
+            >
+                <option value="">Choose a student</option>
+
+                {% for student in students %}
+                    <option
+                        value="{{ student['id'] }}"
+                        {% if selected_student_id == student['id'] %}
+                            selected
+                        {% endif %}
+                    >
+                        {{ student['name'] }} · {{ student['grade'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="report-date-fields">
+            <div class="form-group">
+                <label for="start_date">From</label>
+
+                <input
+                    id="start_date"
+                    name="start_date"
+                    type="date"
+                    value="{{ start_date }}"
+                    required
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="end_date">To</label>
+
+                <input
+                    id="end_date"
+                    name="end_date"
+                    type="date"
+                    value="{{ end_date }}"
+                    required
+                >
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                View report
+            </button>
+        </div>
+    </form>
+</section>
+
+{% if report %}
+    <section class="report-page">
+        <div class="report-header">
+            <div>
+                <p class="eyebrow">Student progress report</p>
+
+                <h2>
+                    {{ report["student"]["name"] }}
+                </h2>
+
+                <p class="muted-copy">
+                    {{ report["student"]["grade"] }}
+                    · {{ report["start_date"] }}
+                    to {{ report["end_date"] }}
+                </p>
+            </div>
+
+            <button
+                type="button"
+                class="secondary-button"
+                onclick="window.print()"
+            >
+                Print report
+            </button>
+        </div>
+
+        <article class="report-card">
+            <p class="eyebrow">Learning goal</p>
+
+            {% if report["student"]["learning_goal"] %}
+                <p>{{ report["student"]["learning_goal"] }}</p>
+            {% else %}
+                <p class="muted-copy">
+                    No learning goal has been recorded.
+                </p>
+            {% endif %}
+        </article>
+
+        <article class="report-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Teaching schedule</p>
+                    <h3>Sessions</h3>
+                </div>
+
+                <span class="status-badge">
+                    {{ report["sessions"]|length }} session(s)
+                </span>
+            </div>
+
+            {% if report["sessions"] %}
+                <div class="report-list">
+                    {% for session in report["sessions"] %}
+                        <div class="report-list-row">
+                            <div>
+                                <strong>{{ session["subject"] }}</strong>
+                                <span>
+                                    {{ session["session_date"] }}
+                                    · {{ session["start_time"] }}
+                                </span>
+                            </div>
+
+                            <span>
+                                {{ session["duration_minutes"] }} minutes
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="muted-copy">
+                    No sessions were recorded during this period.
+                </p>
+            {% endif %}
+        </article>
+
+        <article class="report-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Learning journal</p>
+                    <h3>Progress observed</h3>
+                </div>
+
+                {% if report["average_confidence"] %}
+                    <span class="status-badge">
+                        Average confidence:
+                        {{ report["average_confidence"] }}/5
+                    </span>
+                {% endif %}
+            </div>
+
+            {% if report["progress_notes"] %}
+                <div class="report-progress-list">
+                    {% for note in report["progress_notes"] %}
+                        <div class="report-progress-item">
+                            <p class="report-date">
+                                {{ note["progress_date"] }}
+                            </p>
+
+                            <h4>{{ note["topic"] }}</h4>
+
+                            <p>
+                                <strong>Improvement:</strong>
+                                {{ note["improvement"] }}
+                            </p>
+
+                            {% if note["needs_work"] %}
+                                <p>
+                                    <strong>Needs work:</strong>
+                                    {{ note["needs_work"] }}
+                                </p>
+                            {% endif %}
+
+                            {% if note["next_step"] %}
+                                <p>
+                                    <strong>Next step:</strong>
+                                    {{ note["next_step"] }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="muted-copy">
+                    No progress notes were recorded during this period.
+                </p>
+            {% endif %}
+        </article>
+
+        <article class="report-card">
+            <div class="section-heading">
+                <div>
+                    <p class="eyebrow">Assignment tracking</p>
+                    <h3>Homework</h3>
+                </div>
+
+                <span class="status-badge">
+                    {{ report["homework"]|length }} assignment(s)
+                </span>
+            </div>
+
+            {% if report["homework"] %}
+                <div class="report-list">
+                    {% for item in report["homework"] %}
+                        <div class="report-list-row">
+                            <div>
+                                <strong>{{ item["title"] }}</strong>
+                                <span>Due {{ item["due_date"] }}</span>
+                            </div>
+
+                            <span class="status-badge">
+                                {{ item["status"]|capitalize }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p class="muted-copy">
+                    No homework was recorded during this period.
+                </p>
+            {% endif %}
+        </article>
+    </section>
+{% endif %}
+{% endblock %}
