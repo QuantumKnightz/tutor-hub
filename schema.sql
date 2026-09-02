@@ -1,7 +1,4 @@
-DROP TABLE IF EXISTS sessions;
-DROP TABLE IF EXISTS students;
-
-CREATE TABLE students (
+CREATE TABLE IF NOT EXISTS students (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     grade TEXT NOT NULL,
@@ -15,7 +12,8 @@ CREATE TABLE students (
     status TEXT NOT NULL DEFAULT 'active',
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-CREATE TABLE sessions (
+
+CREATE TABLE IF NOT EXISTS sessions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
     subject TEXT NOT NULL,
@@ -25,5 +23,20 @@ CREATE TABLE sessions (
     status TEXT NOT NULL DEFAULT 'scheduled',
     notes TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);
+
+CREATE TABLE IF NOT EXISTS homework (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    resource_id INTEGER,
+    title TEXT NOT NULL,
+    description TEXT NOT NULL,
+    due_date TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'assigned',
+    assigned_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    submitted_at TEXT,
+    teacher_feedback TEXT,
+    reviewed_at TEXT,
     FOREIGN KEY (student_id) REFERENCES students (id)
 );

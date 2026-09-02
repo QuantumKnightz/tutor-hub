@@ -2,78 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}Tutor Hub{% endblock %}</title>
-
-    <link
-        rel="stylesheet"
-        href="{{ url_for('static', filename='css/style.css') }}"
-    >
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
     <a class="skip-link" href="#page-content">Skip to page content</a>
-
     <div class="app-layout">
         <aside class="sidebar">
             <a class="brand" href="{{ url_for('home') }}">
                 <span class="brand-mark" aria-hidden="true">TH</span>
                 <span>Tutor Hub</span>
             </a>
-
             <nav class="sidebar-nav" aria-label="Main navigation">
-                <a
-                    href="{{ url_for('home') }}"
-                    class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
-                    {% if request.endpoint == 'home' %}aria-current="page"{% endif %}
-                >
-                    Dashboard
-                </a>
-
-                <a
-                    href="{{ url_for('students') }}"
-                    class="nav-link {% if request.endpoint in ['students', 'add_student', 'student_profile', 'edit_student', 'archive_student', 'restore_student'] %}active{% endif %}"
-                    {% if request.endpoint in ['students', 'add_student', 'student_profile', 'edit_student', 'archive_student', 'restore_student'] %}aria-current="page"{% endif %}
-                >
-                    Students
-                </a>
-
-                <a
-                    href="{{ url_for('sessions') }}"
-                    class="nav-link {% if request.endpoint in ['sessions', 'add_session'] %}active{% endif %}"
-                    {% if request.endpoint in ['sessions', 'add_session'] %}aria-current="page"{% endif %}
-                >
-                    Sessions
-                </a>
+                <a href="{{ url_for('home') }}" class="nav-link {% if request.endpoint == 'home' %}active{% endif %}" {% if request.endpoint == 'home' %}aria-current="page"{% endif %}>Dashboard</a>
+                <a href="{{ url_for('students') }}" class="nav-link {% if request.endpoint in ['students', 'add_student', 'student_profile', 'edit_student', 'archive_student', 'restore_student'] %}active{% endif %}" {% if request.endpoint in ['students', 'add_student', 'student_profile', 'edit_student', 'archive_student', 'restore_student'] %}aria-current="page"{% endif %}>Students</a>
+                <a href="{{ url_for('sessions') }}" class="nav-link {% if request.endpoint in ['sessions', 'add_session'] %}active{% endif %}" {% if request.endpoint in ['sessions', 'add_session'] %}aria-current="page"{% endif %}>Sessions</a>
+                <a href="{{ url_for('homework') }}" class="nav-link {% if request.endpoint in ['homework', 'add_homework', 'homework_detail', 'submit_homework', 'review_homework'] %}active{% endif %}" {% if request.endpoint in ['homework', 'add_homework', 'homework_detail', 'submit_homework', 'review_homework'] %}aria-current="page"{% endif %}>Homework</a>
             </nav>
-
             <div class="sidebar-bottom">
                 <span class="sidebar-label">Tutor workspace</span>
                 <p>Keep every lesson organised.</p>
             </div>
         </aside>
-
         <main class="main-content" id="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
                     <div class="flash-messages" aria-live="polite">
                         {% for category, message in messages %}
-                            <div
-                                class="flash-message flash-{{ category }}"
-                                role="status"
-                            >
-                                {{ message }}
-                            </div>
+                            <div class="flash-message flash-{{ category }}" role="status">{{ message }}</div>
                         {% endfor %}
                     </div>
                 {% endif %}
             {% endwith %}
-
             {% block content %}{% endblock %}
         </main>
     </div>
