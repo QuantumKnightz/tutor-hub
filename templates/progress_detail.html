@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}{{ progress["topic"] }} | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Progress note</p>
+
+        <h1>{{ progress["topic"] }}</h1>
+
+        <p>
+            {{ progress["student_name"] }}
+            · {{ progress["progress_date"] }}
+        </p>
+    </div>
+
+    <span class="status-badge">
+        Confidence {{ progress["confidence"] }}/5
+    </span>
+</section>
+
+<section class="progress-detail-grid">
+    <article class="detail-card">
+        <p class="eyebrow">What improved</p>
+
+        <div class="detail-copy">
+            {{ progress["improvement"] }}
+        </div>
+    </article>
+
+    <article class="detail-card">
+        <p class="eyebrow">What needs work</p>
+
+        {% if progress["needs_work"] %}
+            <div class="detail-copy">
+                {{ progress["needs_work"] }}
+            </div>
+        {% else %}
+            <p class="muted-copy">
+                No areas to improve were recorded.
+            </p>
+        {% endif %}
+    </article>
+
+    <article class="detail-card detail-card-wide">
+        <p class="eyebrow">Next step</p>
+
+        {% if progress["next_step"] %}
+            <div class="detail-copy">
+                {{ progress["next_step"] }}
+            </div>
+        {% else %}
+            <p class="muted-copy">
+                No next step was recorded.
+            </p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}

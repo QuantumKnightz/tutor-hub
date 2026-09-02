@@ -50,3 +50,16 @@ CREATE TABLE IF NOT EXISTS resources (
     description TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+CREATE TABLE IF NOT EXISTS progress (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    student_id INTEGER NOT NULL,
+    progress_date TEXT NOT NULL,
+    topic TEXT NOT NULL,
+    improvement TEXT NOT NULL,
+    needs_work TEXT,
+    confidence INTEGER NOT NULL DEFAULT 3,
+    next_step TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (student_id) REFERENCES students (id)
+);

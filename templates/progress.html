@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Progress | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Student development</p>
+        <h1>Progress</h1>
+        <p>Record learning improvements, challenges, and next steps.</p>
+    </div>
+
+    <a
+        href="{{ url_for('add_progress') }}"
+        class="primary-button"
+    >
+        + Add progress note
+    </a>
+</section>
+
+<section class="content-section">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">Learning journal</p>
+            <h2>Progress notes</h2>
+        </div>
+    </div>
+
+    {% if progress %}
+        <div class="progress-list">
+            {% for item in progress %}
+                <a
+                    href="{{ url_for(
+                        'progress_detail',
+                        progress_id=item['id']
+                    ) }}"
+                    class="progress-row"
+                >
+                    <div class="progress-details">
+                        <strong>{{ item['topic'] }}</strong>
+                        <span>{{ item['student_name'] }}</span>
+                    </div>
+
+                    <div class="progress-summary">
+                        <span>{{ item['progress_date'] }}</span>
+                        <small>
+                            Confidence: {{ item['confidence'] }}/5
+                        </small>
+                    </div>
+
+                    <span
+                        class="row-arrow"
+                        aria-hidden="true"
+                    >
+                        →
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-section">
+            <p class="empty-section-title">
+                No progress notes yet
+            </p>
+
+            <p>
+                Add a note after a lesson to record what the student learned
+                and what they should work on next.
+            </p>
+
+            <a
+                href="{{ url_for('add_progress') }}"
+                class="secondary-button"
+            >
+                Add progress note
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
