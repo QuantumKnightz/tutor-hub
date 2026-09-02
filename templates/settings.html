@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Settings | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Workspace preferences</p>
+        <h1>Settings</h1>
+        <p>Set the defaults used throughout your tutor workspace.</p>
+    </div>
+</section>
+
+<section class="content-section">
+    <form
+        class="form-card"
+        method="post"
+    >
+        {% if error %}
+            <p
+                class="form-error"
+                role="alert"
+            >
+                {{ error }}
+            </p>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="tutor_name">Tutor name</label>
+
+            <input
+                id="tutor_name"
+                name="tutor_name"
+                type="text"
+                value="{{ settings['tutor_name'] }}"
+                placeholder="Your name"
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="default_session_duration">
+                Default session duration
+            </label>
+
+            <input
+                id="default_session_duration"
+                name="default_session_duration"
+                type="number"
+                min="1"
+                value="{{ settings['default_session_duration'] }}"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="default_subject">Default subject</label>
+
+            <input
+                id="default_subject"
+                name="default_subject"
+                type="text"
+                value="{{ settings['default_subject'] }}"
+                placeholder="Python, Mathematics, HTML/CSS..."
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="workspace_note">Workspace note</label>
+
+            <textarea
+                id="workspace_note"
+                name="workspace_note"
+                placeholder="A short reminder for your tutoring workspace..."
+            >{{ settings['workspace_note'] }}</textarea>
+        </div>
+
+        <div class="form-actions">
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Save settings
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}

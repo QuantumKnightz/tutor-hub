@@ -63,3 +63,12 @@ CREATE TABLE IF NOT EXISTS progress (
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (student_id) REFERENCES students (id)
 );
+
+CREATE TABLE IF NOT EXISTS settings (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    tutor_name TEXT NOT NULL DEFAULT '',
+    default_session_duration INTEGER NOT NULL DEFAULT 60,
+    default_subject TEXT NOT NULL DEFAULT '',
+    workspace_note TEXT NOT NULL DEFAULT '',
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
