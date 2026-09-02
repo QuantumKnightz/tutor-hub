@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}Homework | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Assignment tracking</p>
+        <h1>Homework</h1>
+        <p>Assign work, follow submissions, and leave useful feedback.</p>
+    </div>
+    <a href="{{ url_for('add_homework') }}" class="primary-button">+ Assign homework</a>
+</section>
+
+<section class="content-section">
+    <div class="section-heading homework-filters-heading">
+        <div>
+            <p class="eyebrow">Your assignments</p>
+            <h2>Homework overview</h2>
+        </div>
+        <nav class="homework-filters" aria-label="Homework filters">
+            {% for key, label in [('all', 'All'), ('assigned', 'Assigned'), ('overdue', 'Overdue'), ('submitted', 'Submitted'), ('reviewed', 'Reviewed')] %}
+                <a class="filter-link {% if active_filter == key %}active{% endif %}" href="{{ url_for('homework', status=key) }}">{{ label }}</a>
+            {% endfor %}
+        </nav>
+    </div>
+
+    {% if homework %}
+        <div class="homework-list">
+            {% for item in homework %}
+                <a class="homework-row" href="{{ url_for('homework_detail', homework_id=item['id']) }}">
+                    <div class="homework-details">
+                        <strong>{{ item['title'] }}</strong>
+                        <span>{{ item['student_name'] }}</span>
+                    </div>
+                    <div class="homework-due">
+                        <span>Due {{ item['due_date'] }}</span>
+                        <small>{{ item['display_status'] }}</small>
+                    </div>
+                    <span class="row-arrow" aria-hidden="true">→</span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-section">
+            <p class="empty-section-title">No homework here yet</p>
+            <p>Assign homework to an active student and it will appear in this list.</p>
+            <a href="{{ url_for('add_homework') }}" class="secondary-button">Assign homework</a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}{{ homework['title'] }} | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Homework assignment</p>
+        <h1>{{ homework['title'] }}</h1>
+        <p>Assigned to {{ homework['student_name'] }} · Due {{ homework['due_date'] }}</p>
+    </div>
+    <span class="status-badge homework-status">{{ homework['display_status'] }}</span>
+</section>
+
+<section class="homework-detail-grid">
+    <article class="detail-card">
+        <p class="eyebrow">Instructions</p>
+        <div class="detail-copy">{{ homework['description'] }}</div>
+    </article>
+
+    <article class="detail-card">
+        <p class="eyebrow">Submission</p>
+        {% if homework['submitted_at'] %}
+            <p>Submitted {{ homework['submitted_at'] }}</p>
+        {% else %}
+            <p class="muted-copy">The student has not submitted this homework yet.</p>
+            <form method="post" action="{{ url_for('submit_homework', homework_id=homework['id']) }}">
+                <button type="submit" class="primary-button">Mark as submitted</button>
+            </form>
+        {% endif %}
+    </article>
+
+    <article class="detail-card detail-card-wide">
+        <p class="eyebrow">Teacher review</p>
+        {% if homework['teacher_feedback'] %}
+            <div class="detail-copy">{{ homework['teacher_feedback'] }}</div>
+            <p class="muted-copy">Reviewed {{ homework['reviewed_at'] }}</p>
+        {% else %}
+            <form method="post" action="{{ url_for('review_homework', homework_id=homework['id']) }}">
+                <div class="form-group">
+                    <label for="teacher_feedback">Feedback and comments</label>
+                    <textarea id="teacher_feedback" name="teacher_feedback" placeholder="Write helpful feedback for the student..." required></textarea>
+                </div>
+                <button type="submit" class="primary-button">Save review</button>
+            </form>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}
