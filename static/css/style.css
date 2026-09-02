@@ -1027,3 +1027,82 @@ textarea:focus-visible {
         gap: 3px;
     }
 }
+
+/* Progress */
+
+.progress-list {
+    border-top: 1px solid var(--line);
+}
+
+.progress-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.progress-row:hover {
+    color: var(--accent);
+}
+
+.progress-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.progress-details strong,
+.progress-details span,
+.progress-summary span,
+.progress-summary small {
+    display: block;
+}
+
+.progress-details strong {
+    color: var(--ink);
+    font-size: 0.96rem;
+}
+
+.progress-details span,
+.progress-summary span,
+.progress-summary small {
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.progress-summary {
+    flex: 0 0 180px;
+    text-align: right;
+}
+
+.progress-summary small {
+    margin-top: 2px;
+    font-weight: 800;
+}
+
+.progress-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+@media (max-width: 600px) {
+    .progress-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .progress-summary {
+        flex-basis: auto;
+        text-align: left;
+    }
+
+    .progress-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-detail-grid .detail-card-wide {
+        grid-column: auto;
+    }
+}

@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}Add Progress | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Learning journal</p>
+        <h1>Add progress note</h1>
+        <p>Capture what the student improved and what comes next.</p>
+    </div>
+</section>
+
+<section class="content-section">
+    <form
+        class="form-card"
+        method="post"
+    >
+        {% if error %}
+            <p
+                class="form-error"
+                role="alert"
+            >
+                {{ error }}
+            </p>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="student_id">Student</label>
+
+            <select
+                id="student_id"
+                name="student_id"
+                required
+            >
+                <option value="">Choose a student</option>
+
+                {% for student in students %}
+                    <option value="{{ student['id'] }}">
+                        {{ student['name'] }} · {{ student['grade'] }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="progress_date">Date</label>
+
+            <input
+                id="progress_date"
+                name="progress_date"
+                type="date"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="topic">Topic or skill</label>
+
+            <input
+                id="topic"
+                name="topic"
+                type="text"
+                placeholder="Python loops"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="improvement">What improved</label>
+
+            <textarea
+                id="improvement"
+                name="improvement"
+                placeholder="Describe what the student can do better now..."
+                required
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="needs_work">What needs work</label>
+
+            <textarea
+                id="needs_work"
+                name="needs_work"
+                placeholder="Describe anything that still needs practice..."
+            ></textarea>
+        </div>
+
+        <div class="form-group">
+            <label for="confidence">
+                Confidence
+            </label>
+
+            <select
+                id="confidence"
+                name="confidence"
+                required
+            >
+                <option value="">Choose a confidence level</option>
+                <option value="1">1 — Needs significant support</option>
+                <option value="2">2 — Developing</option>
+                <option value="3">3 — Making progress</option>
+                <option value="4">4 — Mostly confident</option>
+                <option value="5">5 — Very confident</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="next_step">Next step</label>
+
+            <textarea
+                id="next_step"
+                name="next_step"
+                placeholder="What should the student practise next?"
+            ></textarea>
+        </div>
+
+        <div class="form-actions">
+            <a
+                href="{{ url_for('progress') }}"
+                class="secondary-button"
+            >
+                Cancel
+            </a>
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Save progress note
+            </button>
+        </div>
+    </form>
+</section>
+{% endblock %}
