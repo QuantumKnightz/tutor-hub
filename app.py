@@ -1372,5 +1372,169 @@ def progress_detail(progress_id):
     )
 
 
+@app.route("/reports")
+def reports():
+    database = db.get_db()
+
+    student_list = database.execute(
+        """
+        SELECT
+            id,
+            name,
+            grade
+        FROM students
+        WHERE status = 'active'
+        ORDER BY name ASC
+        """
+    ).fetchall()
+
+    selected_student_id = request.args.get(
+        "student_id",
+        type=int,
+    )
+
+    start_date = request.args.get(
+        "start_date",
+        "",
+    )
+
+    end_date = request.args.get(
+        "end_date",
+        "",
+    )
+
+    report = None
+
+    if selected_student_id and start_date and end_date:
+        try:
+            date.fromisoformat(start_date)
+            date.fromisoformat(end_date)
+        except ValueError:
+            return render_template(
+                "reports.html",
+                students=student_list,
+                selected_student_id=selected_student_id,
+                start_date=start_date,
+                end_date=end_date,
+                error="Please choose valid dates.",
+            )
+
+        student = database.execute(
+            """
+            SELECT
+                id,
+                name,
+                grade,
+                subjects,
+                learning_goal
+            FROM students
+            WHERE id = ?
+            """,
+            (selected_student_id,),
+        ).fetchone()
+
+        if student is None:
+            abort(404)
+
+        sessions = database.execute(
+            """
+            SELECT
+                subject,
+                session_date,
+                start_time,
+                duration_minutes,
+                notes
+            FROM sessions
+            WHERE student_id = ?
+              AND session_date BETWEEN ? AND ?
+            ORDER BY session_date ASC, start_time ASC
+            """,
+            (
+                selected_student_id,
+                start_date,
+                end_date,
+            ),
+        ).fetchall()
+
+        progress_notes = database.execute(
+            """
+            SELECT
+                progress_date,
+                topic,
+                improvement,
+                needs_work,
+                confidence,
+                next_step
+            FROM progress
+            WHERE student_id = ?
+              AND progress_date BETWEEN ? AND ?
+            ORDER BY progress_date ASC, id ASC
+            """,
+            (
+                selected_student_id,
+                start_date,
+                end_date,
+            ),
+        ).fetchall()
+
+        homework_items = database.execute(
+            """
+            SELECT
+                title,
+                due_date,
+                status,
+                submitted_at,
+                teacher_feedback
+            FROM homework
+            WHERE student_id = ?
+              AND (
+                  due_date BETWEEN ? AND ?
+                  OR submitted_at BETWEEN ? AND ?
+              )
+            ORDER BY due_date ASC
+            """,
+            (
+                selected_student_id,
+                start_date,
+                end_date,
+                start_date,
+                end_date,
+            ),
+        ).fetchall()
+
+        confidence_values = [
+            item["confidence"]
+            for item in progress_notes
+            if item["confidence"] is not None
+        ]
+
+        average_confidence = None
+
+        if confidence_values:
+            average_confidence = round(
+                sum(confidence_values) / len(confidence_values),
+                1,
+            )
+
+        report = {
+            "student": student,
+            "sessions": sessions,
+            "progress_notes": progress_notes,
+            "homework": homework_items,
+            "average_confidence": average_confidence,
+            "start_date": start_date,
+            "end_date": end_date,
+        }
+
+    return render_template(
+        "reports.html",
+        students=student_list,
+        selected_student_id=selected_student_id,
+        start_date=start_date,
+        end_date=end_date,
+        report=report,
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)
