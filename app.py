@@ -508,5 +508,133 @@ def review_homework(homework_id):
     return redirect(url_for("homework_detail", homework_id=homework_id))
 
 
+@app.route("/resources")
+def resources():
+    database = db.get_db()
+    resource_type = request.args.get("type", "all")
+
+    rows = database.execute(
+        """
+        SELECT id, title, resource_type, subject, url, description, created_at
+        FROM resources
+        ORDER BY title ASC
+        """
+    ).fetchall()
+
+    resource_list = rows
+
+    if resource_type != "all":
+        resource_list = [
+            resource for resource in rows
+            if resource["resource_type"] == resource_type
+        ]
+
+    resource_types = database.execute(
+        """
+        SELECT DISTINCT resource_type
+        FROM resources
+        WHERE resource_type IS NOT NULL
+          AND resource_type != ''
+        ORDER BY resource_type ASC
+        """
+    ).fetchall()
+
+    return render_template(
+        "resources.html",
+        resources=resource_list,
+        resource_types=resource_types,
+        active_type=resource_type,
+    )
+
+
+@app.route("/resources/add", methods=["GET", "POST"])
+def add_resource():
+    if request.method == "POST":
+        title = request.form.get("title", "").strip()
+        resource_type = request.form.get("resource_type", "").strip()
+        subject = request.form.get("subject", "").strip()
+        url = request.form.get("url", "").strip()
+        description = request.form.get("description", "").strip()
+
+        if not title or not resource_type:
+            return render_template(
+                "add_resource.html",
+                error="Please complete the title and resource type.",
+            )
+
+        database = db.get_db()
+
+        database.execute(
+            """
+            INSERT INTO resources (
+                title,
+                resource_type,
+                subject,
+                url,
+                description
+            )
+            VALUES (?, ?, ?, ?, ?)
+            """,
+            (
+                title,
+                resource_type,
+                subject,
+                url,
+                description,
+            ),
+        )
+
+        database.commit()
+
+        flash(f"{title} was added to Resources.", "success")
+
+        return redirect(url_for("resources"))
+
+    return render_template("add_resource.html")
+
+
+@app.route("/resources/<int:resource_id>")
+def resource_detail(resource_id):
+    database = db.get_db()
+
+    resource = database.execute(
+        """
+        SELECT
+            id,
+            title,
+            resource_type,
+            subject,
+            url,
+            description,
+            created_at
+        FROM resources
+        WHERE id = ?
+        """,
+        (resource_id,),
+    ).fetchone()
+
+    if resource is None:
+        abort(404)
+
+    linked_homework = database.execute(
+        """
+        SELECT
+            id,
+            title,
+            due_date,
+            status
+        FROM homework
+        WHERE resource_id = ?
+        ORDER BY due_date ASC
+        """,
+        (resource_id,),
+    ).fetchall()
+
+    return render_template(
+        "resource_detail.html",
+        resource=resource,
+        linked_homework=linked_homework,
+    )
+
 if __name__ == "__main__":
     app.run(debug=True)

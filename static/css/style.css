@@ -942,3 +942,88 @@ textarea:focus-visible {
     }
 }
 
+/* Resources */
+
+.resource-heading {
+    align-items: flex-end;
+}
+
+.resource-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.resource-list {
+    border-top: 1px solid var(--line);
+}
+
+.resource-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.resource-row:hover {
+    color: var(--accent);
+}
+
+.resource-details strong,
+.resource-details span {
+    display: block;
+}
+
+.resource-details strong {
+    color: var(--ink);
+    font-size: 0.96rem;
+}
+
+.resource-details span {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 0.86rem;
+}
+
+.resource-detail-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.linked-homework-list {
+    border-top: 1px solid var(--line);
+}
+
+.linked-homework-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.linked-homework-row strong {
+    color: var(--ink);
+    font-size: 0.9rem;
+}
+
+.linked-homework-row span {
+    color: var(--muted);
+    font-size: 0.82rem;
+}
+
+@media (max-width: 600px) {
+    .resource-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .linked-homework-row {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 3px;
+    }
+}

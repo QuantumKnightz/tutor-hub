@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Add Resource | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Resource library</p>
+        <h1>Add resource</h1>
+        <p>Save a reusable textbook, worksheet, video, link, or activity.</p>
+    </div>
+</section>
+
+<section class="content-section">
+    <form class="form-card" method="post">
+        {% if error %}
+            <p class="form-error" role="alert">{{ error }}</p>
+        {% endif %}
+
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input
+                id="title"
+                name="title"
+                type="text"
+                placeholder="Grade 9 Math Textbook — Page 121"
+                required
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="resource_type">Resource type</label>
+            <select id="resource_type" name="resource_type" required>
+                <option value="">Choose a type</option>
+                <option value="Textbook">Textbook</option>
+                <option value="Worksheet">Worksheet</option>
+                <option value="Video">Video</option>
+                <option value="Website">Website</option>
+                <option value="Coding exercise">Coding exercise</option>
+                <option value="Project prompt">Project prompt</option>
+                <option value="Notes">Notes</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="subject">Subject or topic</label>
+            <input
+                id="subject"
+                name="subject"
+                type="text"
+                placeholder="Algebra, Python, HTML/CSS..."
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="url">Link <span class="muted-copy">(optional)</span></label>
+            <input
+                id="url"
+                name="url"
+                type="url"
+                placeholder="https://..."
+            >
+        </div>
+
+        <div class="form-group">
+            <label for="description">Notes</label>
+            <textarea
+                id="description"
+                name="description"
+                placeholder="Describe what this resource is useful for..."
+            ></textarea>
+        </div>
+
+        <div class="form-actions">
+            <a href="{{ url_for('resources') }}" class="secondary-button">Cancel</a>
+            <button type="submit" class="primary-button">Save resource</button>
+        </div>
+    </form>
+</section>
+{% endblock %}

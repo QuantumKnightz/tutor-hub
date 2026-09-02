@@ -40,3 +40,13 @@ CREATE TABLE IF NOT EXISTS homework (
     reviewed_at TEXT,
     FOREIGN KEY (student_id) REFERENCES students (id)
 );
+
+CREATE TABLE IF NOT EXISTS resources (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    resource_type TEXT NOT NULL,
+    subject TEXT,
+    url TEXT,
+    description TEXT,
+    created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
