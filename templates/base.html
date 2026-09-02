@@ -41,22 +41,20 @@
 
                 <a
                     href="{{ url_for('students') }}"
-                    class="nav-link {% if request.endpoint in [
-                        'students',
-                        'add_student',
-                        'student_profile',
-                        'edit_student',
-                        'archive_student',
-                        'restore_student'
-                    ] %}active{% endif %}"
-                    {% if request.endpoint in [
-                        'students',
-                        'add_student',
-                        'student_profile',
-                        'edit_student',
-                        'archive_student',
-                        'restore_student'
-                    ] %}
+                    class="nav-link {% if request.endpoint == 'students'
+                        or request.endpoint == 'add_student'
+                        or request.endpoint == 'student_profile'
+                        or request.endpoint == 'edit_student'
+                        or request.endpoint == 'archive_student'
+                        or request.endpoint == 'restore_student'
+                    %}active{% endif %}"
+                    {% if request.endpoint == 'students'
+                        or request.endpoint == 'add_student'
+                        or request.endpoint == 'student_profile'
+                        or request.endpoint == 'edit_student'
+                        or request.endpoint == 'archive_student'
+                        or request.endpoint == 'restore_student'
+                    %}
                         aria-current="page"
                     {% endif %}
                 >
@@ -65,14 +63,12 @@
 
                 <a
                     href="{{ url_for('sessions') }}"
-                    class="nav-link {% if request.endpoint in [
-                        'sessions',
-                        'add_session'
-                    ] %}active{% endif %}"
-                    {% if request.endpoint in [
-                        'sessions',
-                        'add_session'
-                    ] %}
+                    class="nav-link {% if request.endpoint == 'sessions'
+                        or request.endpoint == 'add_session'
+                    %}active{% endif %}"
+                    {% if request.endpoint == 'sessions'
+                        or request.endpoint == 'add_session'
+                    %}
                         aria-current="page"
                     {% endif %}
                 >
@@ -81,20 +77,18 @@
 
                 <a
                     href="{{ url_for('homework') }}"
-                    class="nav-link {% if request.endpoint in [
-                        'homework',
-                        'add_homework',
-                        'homework_detail',
-                        'submit_homework',
-                        'review_homework'
-                    ] %}active{% endif %}"
-                    {% if request.endpoint in [
-                        'homework',
-                        'add_homework',
-                        'homework_detail',
-                        'submit_homework',
-                        'review_homework'
-                    ] %}
+                    class="nav-link {% if request.endpoint == 'homework'
+                        or request.endpoint == 'add_homework'
+                        or request.endpoint == 'homework_detail'
+                        or request.endpoint == 'submit_homework'
+                        or request.endpoint == 'review_homework'
+                    %}active{% endif %}"
+                    {% if request.endpoint == 'homework'
+                        or request.endpoint == 'add_homework'
+                        or request.endpoint == 'homework_detail'
+                        or request.endpoint == 'submit_homework'
+                        or request.endpoint == 'review_homework'
+                    %}
                         aria-current="page"
                     {% endif %}
                 >
@@ -103,16 +97,14 @@
 
                 <a
                     href="{{ url_for('resources') }}"
-                    class="nav-link {% if request.endpoint in [
-                        'resources',
-                        'add_resource',
-                        'resource_detail'
-                    ] %}active{% endif %}"
-                    {% if request.endpoint in [
-                        'resources',
-                        'add_resource',
-                        'resource_detail'
-                    ] %}
+                    class="nav-link {% if request.endpoint == 'resources'
+                        or request.endpoint == 'add_resource'
+                        or request.endpoint == 'resource_detail'
+                    %}active{% endif %}"
+                    {% if request.endpoint == 'resources'
+                        or request.endpoint == 'add_resource'
+                        or request.endpoint == 'resource_detail'
+                    %}
                         aria-current="page"
                     {% endif %}
                 >
@@ -121,16 +113,14 @@
 
                 <a
                     href="{{ url_for('progress') }}"
-                    class="nav-link {% if request.endpoint in [
-                        'progress',
-                        'add_progress',
-                        'progress_detail'
-                    ]}active{% endif %}"
-                    {% if request.endpoint in [
-                        'progress',
-                        'add_progress',
-                        'progress_detail'
-                    ] %}
+                    class="nav-link {% if request.endpoint == 'progress'
+                        or request.endpoint == 'add_progress'
+                        or request.endpoint == 'progress_detail'
+                    %}active{% endif %}"
+                    {% if request.endpoint == 'progress'
+                        or request.endpoint == 'add_progress'
+                        or request.endpoint == 'progress_detail'
+                    %}
                         aria-current="page"
                     {% endif %}
                 >
