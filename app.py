@@ -99,6 +99,66 @@ def ensure_progress_table():
     database.commit()
 
 
+def ensure_settings_table():
+    database = db.get_db()
+
+    database.execute(
+        """
+        CREATE TABLE IF NOT EXISTS settings (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            tutor_name TEXT NOT NULL DEFAULT '',
+            default_session_duration INTEGER NOT NULL DEFAULT 60,
+            default_subject TEXT NOT NULL DEFAULT '',
+            workspace_note TEXT NOT NULL DEFAULT '',
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+
+    database.execute(
+        """
+        INSERT OR IGNORE INTO settings (
+            id,
+            tutor_name,
+            default_session_duration,
+            default_subject,
+            workspace_note
+        )
+        VALUES (1, '', 60, '', '')
+        """
+    )
+
+    database.commit()
+
+    database.execute(
+        """
+        CREATE TABLE IF NOT EXISTS settings (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            tutor_name TEXT NOT NULL DEFAULT '',
+            default_session_duration INTEGER NOT NULL DEFAULT 60,
+            default_subject TEXT NOT NULL DEFAULT '',
+            workspace_note TEXT NOT NULL DEFAULT '',
+            updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+        )
+        """
+    )
+
+    database.execute(
+        """
+        INSERT OR IGNORE INTO settings (
+            id,
+            tutor_name,
+            default_session_duration,
+            default_subject,
+            workspace_note
+        )
+        VALUES (1, '', 60, '', '')
+        """
+    )
+
+    database.commit()
+
+
 def homework_display_status(homework):
     stored_status = homework["status"]
 
@@ -168,6 +228,7 @@ def prepare_database_tables():
         ensure_homework_table()
         ensure_resources_table()
         ensure_progress_table()
+        ensure_settings_table()
 
 
 @app.route("/")
@@ -1535,6 +1596,94 @@ def reports():
         report=report,
     )
 
+@app.route("/settings", methods=["GET", "POST"])
+def settings():
+    database = db.get_db()
+
+    settings_row = database.execute(
+        """
+        SELECT
+            id,
+            tutor_name,
+            default_session_duration,
+            default_subject,
+            workspace_note
+        FROM settings
+        WHERE id = 1
+        """
+    ).fetchone()
+
+    if request.method == "POST":
+        tutor_name = request.form.get(
+            "tutor_name",
+            "",
+        ).strip()
+
+        default_session_duration = request.form.get(
+            "default_session_duration",
+            "",
+        ).strip()
+
+        default_subject = request.form.get(
+            "default_subject",
+            "",
+        ).strip()
+
+        workspace_note = request.form.get(
+            "workspace_note",
+            "",
+        ).strip()
+
+        try:
+            default_session_duration = int(
+                default_session_duration
+            )
+        except ValueError:
+            return render_template(
+                "settings.html",
+                settings=settings_row,
+                error="Please enter a valid session duration.",
+            )
+
+        if default_session_duration <= 0:
+            return render_template(
+                "settings.html",
+                settings=settings_row,
+                error="Session duration must be greater than zero.",
+            )
+
+        database.execute(
+            """
+            UPDATE settings
+            SET
+                tutor_name = ?,
+                default_session_duration = ?,
+                default_subject = ?,
+                workspace_note = ?,
+                updated_at = CURRENT_TIMESTAMP
+            WHERE id = 1
+            """,
+            (
+                tutor_name,
+                default_session_duration,
+                default_subject,
+                workspace_note,
+            ),
+        )
+
+        database.commit()
+
+        flash(
+            "Settings were saved successfully.",
+            "success",
+        )
+
+        return redirect(url_for("settings"))
+
+    return render_template(
+        "settings.html",
+        settings=settings_row,
+    )
 
 if __name__ == "__main__":
     app.run(debug=True)
