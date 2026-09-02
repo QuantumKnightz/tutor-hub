@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Resources | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">Reusable teaching materials</p>
+        <h1>Resources</h1>
+        <p>Keep textbooks, worksheets, links, and activities organised.</p>
+    </div>
+
+    <a
+        href="{{ url_for('add_resource') }}"
+        class="primary-button"
+    >
+        + Add resource
+    </a>
+</section>
+
+<section class="content-section">
+    <div class="section-heading resource-heading">
+        <div>
+            <p class="eyebrow">Your library</p>
+            <h2>Saved resources</h2>
+        </div>
+
+        <nav
+            class="resource-filters"
+            aria-label="Resource filters"
+        >
+            <a
+                class="filter-link {% if active_type == 'all' %}active{% endif %}"
+                href="{{ url_for('resources') }}"
+            >
+                All
+            </a>
+
+            {% for item in resource_types %}
+                <a
+                    class="filter-link {% if active_type == item['resource_type'] %}active{% endif %}"
+                    href="{{ url_for('resources', type=item['resource_type']) }}"
+                >
+                    {{ item['resource_type'] }}
+                </a>
+            {% endfor %}
+        </nav>
+    </div>
+
+    {% if resources %}
+        <div class="resource-list">
+            {% for resource in resources %}
+                <a
+                    class="resource-row"
+                    href="{{ url_for(
+                        'resource_detail',
+                        resource_id=resource['id']
+                    ) }}"
+                >
+                    <div class="resource-details">
+                        <strong>{{ resource['title'] }}</strong>
+
+                        <span>
+                            {{ resource['resource_type'] }}
+
+                            {% if resource['subject'] %}
+                                · {{ resource['subject'] }}
+                            {% endif %}
+                        </span>
+                    </div>
+
+                    <span
+                        class="row-arrow"
+                        aria-hidden="true"
+                    >
+                        →
+                    </span>
+                </a>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="empty-section">
+            <p class="empty-section-title">
+                No resources saved yet
+            </p>
+
+            <p>
+                Add a textbook, worksheet, link, or activity so you can
+                reuse it in future lessons.
+            </p>
+
+            <a
+                href="{{ url_for('add_resource') }}"
+                class="secondary-button"
+            >
+                Add resource
+            </a>
+        </div>
+    {% endif %}
+</section>
+{% endblock %}
