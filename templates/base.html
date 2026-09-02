@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1"
@@ -117,6 +118,24 @@
                 >
                     Resources
                 </a>
+
+                <a
+                    href="{{ url_for('progress') }}"
+                    class="nav-link {% if request.endpoint in [
+                        'progress',
+                        'add_progress',
+                        'progress_detail'
+                    ] %}active{% endif %}"
+                    {% if request.endpoint in [
+                        'progress',
+                        'add_progress',
+                        'progress_detail'
+                    ] %}
+                        aria-current="page"
+                    {% endif %}
+                >
+                    Progress
+                </a>
             </nav>
 
             <div class="sidebar-bottom">
@@ -128,7 +147,10 @@
         <main class="main-content" id="page-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
-                    <div class="flash-messages" aria-live="polite">
+                    <div
+                        class="flash-messages"
+                        aria-live="polite"
+                    >
                         {% for category, message in messages %}
                             <div
                                 class="flash-message flash-{{ category }}"
