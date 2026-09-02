@@ -125,7 +125,7 @@
                         'progress',
                         'add_progress',
                         'progress_detail'
-                    ] %}active{% endif %}"
+                    ]}active{% endif %}"
                     {% if request.endpoint in [
                         'progress',
                         'add_progress',
@@ -135,6 +135,16 @@
                     {% endif %}
                 >
                     Progress
+                </a>
+
+                <a
+                    href="{{ url_for('reports') }}"
+                    class="nav-link {% if request.endpoint == 'reports' %}active{% endif %}"
+                    {% if request.endpoint == 'reports' %}
+                        aria-current="page"
+                    {% endif %}
+                >
+                    Reports
                 </a>
             </nav>
 
