@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}{{ resource["title"] }} | Tutor Hub{% endblock %}
+
+{% block content %}
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">{{ resource["resource_type"] }}</p>
+        <h1>{{ resource["title"] }}</h1>
+
+        {% if resource["subject"] %}
+            <p>{{ resource["subject"] }}</p>
+        {% endif %}
+    </div>
+
+    {% if resource["url"] %}
+        <a
+            href="{{ resource['url'] }}"
+            class="primary-button"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Open resource
+        </a>
+    {% endif %}
+</section>
+
+<section class="resource-detail-grid">
+    <article class="detail-card">
+        <p class="eyebrow">Notes</p>
+
+        {% if resource["description"] %}
+            <div class="detail-copy">{{ resource["description"] }}</div>
+        {% else %}
+            <p class="muted-copy">No notes have been added.</p>
+        {% endif %}
+    </article>
+
+    <article class="detail-card">
+        <p class="eyebrow">Linked homework</p>
+
+        {% if linked_homework %}
+            <div class="linked-homework-list">
+                {% for item in linked_homework %}
+                    <a
+                        href="{{ url_for('homework_detail', homework_id=item['id']) }}"
+                        class="linked-homework-row"
+                    >
+                        <strong>{{ item["title"] }}</strong>
+                        <span>Due {{ item["due_date"] }}</span>
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="muted-copy">
+                This resource is not linked to any homework yet.
+            </p>
+        {% endif %}
+    </article>
+</section>
+{% endblock %}
